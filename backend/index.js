@@ -1,21 +1,40 @@
 const express = require("express");
 const multer = require("multer");
 const cookieParser = require("cookie-parser");
+const dotenv = require("dotenv");
+const mongoose = require("mongoose");
+const routes = require("./routes");
+const bodyParser = require("body-parser");
+dotenv.config();
+
+const port = process.env.PORT;
 const app = express();
 
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(multer().none());
+app.use(bodyParser.json());
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Server-side error!");
 })
 
+routes(app);
+
+mongoose.connect(`${process.env.MONGO_DB}`)
+  .then(() => {
+    console.log("Database connected.")
+    console.log(process.env.MONGO_DB)
+  })
+  .catch((error) => {
+    console.log(error)
+  });
+
 app.get("/api/ai/test", async (req, res) => {
   let message = req.body.message;
   if (!message) {
-    message = "hello, Gemini. Describe your self"
+    message = "Hello, Gemini. Describe yourself"
   }
 
   const {
@@ -71,7 +90,10 @@ app.get("/api/ai/test", async (req, res) => {
   }
 
   runChat();
-
 });
 
-app.listen(8000);
+
+app.listen(port, () => {
+  console.log("Server running on:", port)
+});
+
