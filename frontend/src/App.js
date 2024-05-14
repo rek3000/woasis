@@ -1,10 +1,13 @@
 import './App.css';
 import { RouterProvider } from 'react-router-dom';
 import  router  from './routes';
+import  { AuthContextProvider } from './routes';
 
 function App() {
   return (
-    <RouterProvider router={router} fallbackElement={<p>Initial Load...</p>} />
+     <AuthContextProvider>
+    	<RouterProvider router={router} />
+     </AuthContextProvider>
   );
 }
 

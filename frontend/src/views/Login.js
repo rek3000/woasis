@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useRef, useState, createContext, useContext, useCallback } from 'react';
+import axios from 'axios';
 import {
     Button,
     Card,
@@ -9,21 +10,23 @@ import {
 import icon from "../assets/icon.png";
 import google from "../assets/google25x25.png";
 
-export function Login() {
+const serverUrl = process.env.REACT_APP_SERVER_URL
 
-    const [form1, setForm] = useState({
-        email: "",
-        password: "",
-    });
-    const handleSubmit = () => {
-        console.log(form1);
-    };
+export function Login() {
+	const handleLogin = async () => {
+		try {
+			const {
+				data: { url },
+			} = await axios.get(`${serverUrl}/auth/url`);
+			window.location.assign(url);
+		} catch (err) {
+			console.error(err);	
+		}
+	};
+
+
     return (
         <>
-            <style type="text/css">
-                {`
-        `}
-            </style>
             <div
                 className="d-flex flex-column min-vh-100 justify-content-center align-items-center">
                 <Card className="w-100 border-0 justify-content-center align-items-center">
@@ -36,7 +39,7 @@ export function Login() {
                     </CardText>
                     <CardText>
                         <Form>
-                            <Button className="d-flex justify-content-start align-items-center p-2 px-5" variant="primary" onClick={handleSubmit}>
+                            <Button className="d-flex justify-content-start align-items-center p-2 px-5" variant="primary" onClick={handleLogin}>
                                 <div className="me-3">
                                     <img className='img-fluid' src={google} alt="google-icon"></img>
                                 </div>
