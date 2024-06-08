@@ -4,6 +4,7 @@ import { AuthContext } from '../routes';
 import './css/Welcome.css';
 import GrammarChecker from './Grammar';
 import PlagiarismChecker from './Plagiarism';
+import Paraphrasing from './Paraphrasing';
 
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
@@ -40,44 +41,49 @@ export function Home() {
   };
 
   return (
-    <div className="home-container">
-      {!loggedIn ? (
-        <p>Please log in to view your dashboard.</p>
-      ) : (
-        <>
-          <header className="home-header">
-            <h1>Dashboard</h1>
-          </header>
-          <div className="user-info">
-            <img src={user?.picture} alt={user?.name} className="user-picture" />
-            <div className="user-details">
-              <h4>{user?.name}</h4>
-              <button className="nav-button" onClick={handleLogout}>Logout</button>
+    <div className="full-size-container">
+      <div className="home-container">
+        {!loggedIn ? (
+          <p>Please log in to view your dashboard.</p>
+        ) : (
+          <>
+          <div className='header'>
+            <header className="home-header">
+              <h1>Dashboard</h1>
+            </header>
+            <div className="user-info">
+              <div className="user-details">
+                <h4>{user?.name}</h4>
+                <button className="nav-button" onClick={handleLogout}>Logout</button>
+              </div>
+              <img src={user?.picture} alt={user?.name} className="user-picture" />
             </div>
-          </div>
-          <div className="welcome-container">
-            {activeTool === 'grammar' && <GrammarChecker />}
-            {activeTool === 'plagiarism' && <PlagiarismChecker />}
-            {!activeTool && (
-              <>
-                <header className="welcome-header">
-                  <h1>Welcome to Your Writing Assistant</h1>
-                  <nav className="header-nav">
-                    <ul>
-                      <li><button className="nav-button" onClick={() => handleToolClick('plagiarism')}>Plagiarism Check</button></li>
-                      <li><button className="nav-button">Paraphrasing</button></li>
-                      <li><button className="nav-button" onClick={() => handleToolClick('grammar')}>Grammar Check</button></li>
-                    </ul>
-                  </nav>
-                </header>
-                <div className="welcome-content">
-                  <p>Start improving your writing with our powerful tools.</p>
-                </div>
-              </>
-            )}
-          </div>
-        </>
-      )}
+            </div>
+            <div className="welcome-container">
+              {activeTool === 'grammar' && <GrammarChecker />}
+              {activeTool === 'plagiarism' && <PlagiarismChecker />}
+              {activeTool === 'paraphrasing' && <Paraphrasing />}
+              {!activeTool && (
+                <>
+                  <header className="welcome-header">
+                    <h1>Welcome to our Writing Assistant</h1>
+                    <nav className="header-nav">
+                      <ul>
+                        <li><button className="nav-button" onClick={() => handleToolClick('plagiarism')}>Plagiarism Check</button></li>
+                        <li><button className="nav-button" onClick={() => handleToolClick('paraphrasing')}>Paraphrasing</button></li>
+                        <li><button className="nav-button" onClick={() => handleToolClick('grammar')}>Grammar Check</button></li>
+                      </ul>
+                    </nav>
+                  </header>
+                  <div className="welcome-content">
+                    <p>Start improving your writing with our powerful tools.</p>
+                  </div>
+                </>
+              )}
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }
