@@ -50,6 +50,8 @@ app.use(cors({
 	credentials: true,
 }));
 
+app.options("*", cors({ origin: 'http://localhost:3000', optionsSuccessStatus: 200 }));
+app.use(cors({ origin: "http://localhost:3000", optionsSuccessStatus: 200 }));
 
 app.use(multer().none());
 const auth = (req, res, next) => {
