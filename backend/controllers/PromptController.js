@@ -1,5 +1,6 @@
 const PromptService = require("../services/PromptService");
 const GeminiService = require("../services/GeminiService");
+const ChatService = require("../services/ChatService");
 
 const createPrompt = async (request, respond) => {
   try {
@@ -21,17 +22,24 @@ const createPrompt = async (request, respond) => {
     };
 
     // Store prompt in database
-    const response = await PromptService.createPrompt(newPrompt);
+    const promptResponse = await PromptService.createPrompt(newPrompt);
+
+    // Create a chat for the user with the newly created prompt
+    const userId = request.user.id; // Assuming you have user information in request
+    const chatResponse = await ChatService.createChat(userId, 'New Chat', [promptResponse.data._id]);
 
     return respond.status(200).json({
       status: "OK",
-      message: "SUCCESS",
-      data: response.data,
+      message: "Prompt and Chat created successfully",
+      data: {
+        prompt: promptResponse.data,
+        chat: chatResponse.data,
+      },
     });
   } catch (error) {
     return respond.status(500).json({
       status: "ERROR",
-      message: error.message + " [Internal Server Error (at Prompt Controller)]",
+      message: error.message + " [Internal Server Error (at Prompt Controller - Create Prompt)]",
     });
   }
 };
@@ -55,7 +63,7 @@ const getPromptDetail = async (request, respond) => {
   } catch (error) {
     return respond.status(500).json({
       status: "ERROR",
-      message: error.message + " [Internal Server Error (at Prompt Controller)]",
+      message: error.message + " [Internal Server Error (at Prompt Controller - Get Prompt Detail)]",
     });
   }
 };
@@ -72,7 +80,7 @@ const getAllPromptDetail = async (request, response) => {
   } catch (error) {
     return response.status(500).json({
       status: "ERROR",
-      message: error.message + "[Internal Server Error (at Prompt Controller)]",
+      message: error.message + "[Internal Server Error (at Prompt Controller - Get All Prompt Detail)]",
     });
   }
 };
@@ -91,7 +99,7 @@ const deletePrompt = async (request, respond) => {
   } catch (error) {
     return respond.status(500).json({
       status: "ERROR",
-      message: error.message + " [Internal Server Error (at Prompt Controller)]",
+      message: error.message + " [Internal Server Error (at Prompt Controller - Delete Prompt)]",
     })
   }
 };

@@ -73,6 +73,23 @@ const verifyToken = (token) => {
   return jwt.verify(token, config.tokenSecret);
 };
 
+const getCurrentUser = async (request) => {
+  try {
+    const token = request.headers.authorization.split(" ")[1];
+    const decodedToken = verifyToken(token);
+    const userId = decodedToken.user._id; 
+
+    const userResponse = await UserService.getUserById(userId);
+    if (userResponse.status === "ERROR") {
+      throw new Error(userResponse.message);
+    }
+
+    return userResponse.data;
+  } catch (error) {
+    throw new Error("Invalid or missing token");
+  }
+};
+
 module.exports = {
   getAuthUrl,
   getToken,
@@ -80,4 +97,5 @@ module.exports = {
   createOrUpdateUser,
   createToken,
   verifyToken,
+  getCurrentUser,
 };

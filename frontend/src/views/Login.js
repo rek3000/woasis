@@ -23,8 +23,6 @@ export function Login() {
 			console.error(err);	
 		}
 	};
-
-
     return (
         <>
             <div

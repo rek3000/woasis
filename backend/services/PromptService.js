@@ -7,7 +7,7 @@ const createPrompt = async (newPrompt) => {
     // Create a new Prompt instance with content and result
     const prompt = new Prompt({
       content,
-      result, // Make sure result is included in the new Prompt instance
+      result, 
     });
 
     // Save the prompt to the database
