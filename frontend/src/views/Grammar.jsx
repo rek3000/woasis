@@ -1,31 +1,25 @@
 import React, { useState } from 'react';
 import './css/Grammar.css';
+import { createPrompt } from '../services/PromptService';
 
 const Grammar = () => {
   const [text, setText] = useState('');
   const [errors, setErrors] = useState([]);
 
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     const inputText = e.target.value;
     setText(inputText);
-    checkGrammar(inputText);
+    await checkGrammar(inputText);
   };
 
-  const checkGrammar = (text) => {
-    const errorList = [];
-
-    // Simple grammar checks
-    const sentences = text.split('. ');
-    sentences.forEach((sentence, index) => {
-      if (!/^[A-Z]/.test(sentence)) {
-        errorList.push(`Sentence ${index + 1} should start with a capital letter.`);
-      }
-      if (!/[.!?]$/.test(sentence)) {
-        errorList.push(`Sentence ${index + 1} should end with a punctuation mark.`);
-      }
-    });
-
-    setErrors(errorList);
+  const checkGrammar = async (text) => {
+    try {
+      const response = await createPrompt({ content: text });
+      setErrors(response.errors || []);
+    } catch (error) {
+      console.error('Error checking grammar:', error);
+      setErrors(['Failed to check grammar. Please try again later.']);
+    }
   };
 
   return (

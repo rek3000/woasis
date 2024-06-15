@@ -1,4 +1,10 @@
 
+.drawer-container {
+  width: 240px; /* Set width according to your design */
+  padding: 20px;
+}
+
+
 .full-size-container {
   width: 97vw;
   height: 95vh;

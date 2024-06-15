@@ -36,7 +36,10 @@ const auth = (req, res, next) => {
   try {
     const token = req.cookies.token;
     if (!token) return res.status(401).json({ message: "Unauthorized" });
+    console.log(token);
     OAuth2Service.verifyToken(token);
+    console.log(token);
+
     return next();
   } catch (err) {
     console.error("Error: ", err);
@@ -63,7 +66,7 @@ app.get("/auth/token", async (req, res) => {
 
     const { email, name, picture } = OAuth2Service.getUserFromToken(id_token);
     const user = await OAuth2Service.createOrUpdateUser({ email, name, picture });
-
+    
     const token = OAuth2Service.createToken(user);
 
     res.cookie("token", token, {
