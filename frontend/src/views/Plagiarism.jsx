@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './css/Plagiarism.css';
 
 const PlagiarismChecker = () => {
   const [text, setText] = useState('');
