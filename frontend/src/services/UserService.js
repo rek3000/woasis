@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const handleResponse = async (response) => {
+<<<<<<< HEAD
   const contentType = response.headers.get("content-type");
   if (!response.ok) {
     if (contentType && contentType.includes("application/json")) {
@@ -36,6 +37,27 @@ export const getCurrentUser = async (data) => {
   });
   return handleResponse(response);
 };
+=======
+  if (!response.data) {
+    throw new Error("Network response was not ok or no data received");
+  }
+  return response.data;
+};
+
+export const getCurrentUser = async (token) => {
+  try {
+    const response = await axios.get("http://localhost:8000/api/user/get-current", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return handleResponse(response);
+  } catch (error) {
+    throw new Error(`Failed to get current user: ${error.message}`);
+  }
+};
+
+>>>>>>> ea52429e65f9a739f71d536e73ad58e05265db2d
 
 
 // Get an user by email
