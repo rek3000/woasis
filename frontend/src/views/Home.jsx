@@ -9,13 +9,9 @@ import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-<<<<<<< HEAD
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { deletePrompt, getPromptDetail } from '../services/PromptService';
-=======
-import Button from '@mui/material/Button';
->>>>>>> ea52429e65f9a739f71d536e73ad58e05265db2d
 
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
@@ -24,10 +20,7 @@ export function Home() {
   const [posts, setPosts] = useState([]);
   const [activeTool, setActiveTool] = useState('');
   const [drawerOpen, setDrawerOpen] = useState(false);
-<<<<<<< HEAD
   const [selectedPrompt, setSelectedPrompt] = useState(null);
-=======
->>>>>>> ea52429e65f9a739f71d536e73ad58e05265db2d
 
   const handleToolClick = (tool) => {
     setActiveTool(tool);
@@ -60,7 +53,6 @@ export function Home() {
     setDrawerOpen(open);
   };
 
-<<<<<<< HEAD
   const handleDelete = async (id) => {
     try {
       await deletePrompt(id);
@@ -79,8 +71,6 @@ export function Home() {
     }
   };
 
-=======
->>>>>>> ea52429e65f9a739f71d536e73ad58e05265db2d
   return (
     <div className="full-size-container">
       <div className="home-container">
@@ -90,20 +80,12 @@ export function Home() {
           <>
             <div className='header'>
               <header className="home-header">
-<<<<<<< HEAD
                 <button className="nav-button" onClick={toggleDrawer(true)}>Dashboard</button>
-=======
-              <button className="nav-button" onClick={toggleDrawer(true)}>Dashboard</button>
->>>>>>> ea52429e65f9a739f71d536e73ad58e05265db2d
               </header>
               <div className="user-info">
                 <div className="user-details">
                   <h4>{user?.name}</h4>
                   <button className="nav-button" onClick={handleLogout}>Logout</button>
-<<<<<<< HEAD
-=======
-
->>>>>>> ea52429e65f9a739f71d536e73ad58e05265db2d
                 </div>
                 <img src={user?.picture} alt={user?.name} className="user-picture" />
               </div>
@@ -119,7 +101,6 @@ export function Home() {
                 onKeyDown={toggleDrawer(false)}
               >
                 <div className="drawer-container">
-<<<<<<< HEAD
                   <List>
                   <div className="drawer-title">Dashboard</div>
                     {posts.length > 0 ? (
@@ -139,24 +120,6 @@ export function Home() {
                       </ListItem>
                     )}
                   </List>
-=======
-                <List>
-                  <ListItem>
-                    <ListItemText primary="Dashboard" />
-                  </ListItem>
-                  {posts.length > 0 ? (
-                    posts.map((post, index) => (
-                      <ListItem key={index}>
-                        <ListItemText primary={`Input: ${post.input}`} />
-                      </ListItem>
-                    ))
-                  ) : (
-                    <ListItem>
-                      <ListItemText primary="No activity yet." />
-                    </ListItem>
-                  )}
-                </List>
->>>>>>> ea52429e65f9a739f71d536e73ad58e05265db2d
                 </div>
               </div>
             </Drawer>
