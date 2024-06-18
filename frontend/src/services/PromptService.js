@@ -1,5 +1,24 @@
 import dotenv from "dotenv";
+import axios from "axios";
 dotenv.config();
+
+// const api = axios.create({
+//   baseURL: process.env.REACT_APP_SERVER_URL,
+//   headers: {
+//     'Content-Type': 'application/json',
+//   },
+// });
+
+// // Function to send prompt to Gemini
+// export const sendPromptToGemini = async (prompt) => {
+//   try {
+//     const response = await api.post('/prompt/create', { content: prompt });
+//     return response.data.data; // Assuming your backend returns the prompt data with generated response
+//   } catch (error) {
+//     console.error('Error sending prompt to Gemini:', error);
+//     throw error;
+//   }
+// };
 
 // Helper function to handle responses
 const handleResponse = async (response) => {

@@ -5,11 +5,14 @@ import './css/Welcome.css';
 import GrammarChecker from './Grammar';
 import PlagiarismChecker from './Plagiarism';
 import Paraphrasing from './Paraphrasing';
+import Paraphrase from './Paraphrase';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import { deletePrompt, getPromptDetail } from '../services/PromptService';
 
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
@@ -104,6 +107,7 @@ export function Home() {
               {activeTool === 'grammar' && <GrammarChecker />}
               {activeTool === 'plagiarism' && <PlagiarismChecker />}
               {activeTool === 'paraphrasing' && <Paraphrasing />}
+              {activeTool === 'paraphrase' && <Paraphrase />}
               {!activeTool && (
                 <>
                   <header className="welcome-header">
@@ -112,6 +116,7 @@ export function Home() {
                       <ul>
                         <li><button className="nav-button" onClick={() => handleToolClick('plagiarism')}>Plagiarism Check</button></li>
                         <li><button className="nav-button" onClick={() => handleToolClick('paraphrasing')}>Paraphrasing</button></li>
+                        <li><button className="nav-button" onClick={() => handleToolClick('paraphrase')}>Paraphrase</button></li>
                         <li><button className="nav-button" onClick={() => handleToolClick('grammar')}>Grammar Check</button></li>
                       </ul>
                     </nav>
