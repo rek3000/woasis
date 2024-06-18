@@ -6,6 +6,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const OAuth2Service = require("./services/OAuth2Service");
+const axios = require('axios');
 
 dotenv.config();
 
@@ -36,9 +37,9 @@ const auth = (req, res, next) => {
   try {
     const token = req.cookies.token;
     if (!token) return res.status(401).json({ message: "Unauthorized" });
-    console.log(token);
+    //console.log(token);
     OAuth2Service.verifyToken(token);
-    console.log(token);
+    //console.log(token);
 
     return next();
   } catch (err) {
@@ -68,6 +69,7 @@ app.get("/auth/token", async (req, res) => {
     const user = await OAuth2Service.createOrUpdateUser({ email, name, picture });
     
     const token = OAuth2Service.createToken(user);
+    // console.log(process.env.GEMINI_API_KEY);
 
     res.cookie("token", token, {
       maxAge: process.env.TOKEN_EXPIRATION || 36000,

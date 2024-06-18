@@ -5,7 +5,6 @@ import './css/Welcome.css';
 import GrammarChecker from './Grammar';
 import PlagiarismChecker from './Plagiarism';
 import Paraphrasing from './Paraphrasing';
-import Paraphrase from './Paraphrase';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -14,6 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { deletePrompt, getPromptDetail } from '../services/PromptService';
 
+
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
 export function Home() {
@@ -21,6 +21,7 @@ export function Home() {
   const [posts, setPosts] = useState([]);
   const [activeTool, setActiveTool] = useState('');
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [selectedPrompt, setSelectedPrompt] = useState(null);
 
   const handleToolClick = (tool) => {
     setActiveTool(tool);
@@ -53,6 +54,24 @@ export function Home() {
     setDrawerOpen(open);
   };
 
+  const handleDelete = async (id) => {
+    try {
+      await deletePrompt(id);
+      setPosts(posts.filter(post => post.id !== id));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handlePostClick = async (id) => {
+    try {
+      const promptDetail = await getPromptDetail(id);
+      setSelectedPrompt(promptDetail);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  
   return (
     <div className="full-size-container">
       <div className="home-container">
@@ -62,13 +81,12 @@ export function Home() {
           <>
             <div className='header'>
               <header className="home-header">
-              <button className="nav-button" onClick={toggleDrawer(true)}>Dashboard</button>
+                <button className="nav-button" onClick={toggleDrawer(true)}>Dashboard</button>
               </header>
               <div className="user-info">
                 <div className="user-details">
                   <h4>{user?.name}</h4>
                   <button className="nav-button" onClick={handleLogout}>Logout</button>
-
                 </div>
                 <img src={user?.picture} alt={user?.name} className="user-picture" />
               </div>
@@ -84,22 +102,25 @@ export function Home() {
                 onKeyDown={toggleDrawer(false)}
               >
                 <div className="drawer-container">
-                <List>
-                  <ListItem>
-                    <ListItemText primary="Dashboard" />
-                  </ListItem>
-                  {posts.length > 0 ? (
-                    posts.map((post, index) => (
-                      <ListItem key={index}>
-                        <ListItemText primary={`Input: ${post.input}`} />
+                  <List>
+                  <div className="drawer-title">Dashboard</div>
+                    {posts.length > 0 ? (
+                      posts.map((post, index) => (
+                        <div className="prompt-container" key={index}>
+                          <ListItem button onClick={() => handlePostClick(post.id)}>
+                            <ListItemText primary={`${post.input}`} />
+                            <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(post.id)}>
+                              <DeleteIcon className="delete-button" />
+                            </IconButton>
+                          </ListItem>
+                        </div>
+                      ))
+                    ) : (
+                      <ListItem>
+                        <ListItemText primary="No activity yet." />
                       </ListItem>
-                    ))
-                  ) : (
-                    <ListItem>
-                      <ListItemText primary="No activity yet." />
-                    </ListItem>
-                  )}
-                </List>
+                    )}
+                  </List>
                 </div>
               </div>
             </Drawer>
@@ -107,7 +128,6 @@ export function Home() {
               {activeTool === 'grammar' && <GrammarChecker />}
               {activeTool === 'plagiarism' && <PlagiarismChecker />}
               {activeTool === 'paraphrasing' && <Paraphrasing />}
-              {activeTool === 'paraphrase' && <Paraphrase />}
               {!activeTool && (
                 <>
                   <header className="welcome-header">
@@ -116,7 +136,6 @@ export function Home() {
                       <ul>
                         <li><button className="nav-button" onClick={() => handleToolClick('plagiarism')}>Plagiarism Check</button></li>
                         <li><button className="nav-button" onClick={() => handleToolClick('paraphrasing')}>Paraphrasing</button></li>
-                        <li><button className="nav-button" onClick={() => handleToolClick('paraphrase')}>Paraphrase</button></li>
                         <li><button className="nav-button" onClick={() => handleToolClick('grammar')}>Grammar Check</button></li>
                       </ul>
                     </nav>
@@ -125,6 +144,13 @@ export function Home() {
                     <p>Start improving your writing with our powerful tools.</p>
                   </div>
                 </>
+              )}
+              {selectedPrompt && (
+                <div className="prompt-details">
+                  <h2>Prompt Details</h2>
+                  <p><strong>Input:</strong> {selectedPrompt.input}</p>
+                  <p><strong>Result:</strong> {selectedPrompt.result}</p>
+                </div>
               )}
             </div>
           </>

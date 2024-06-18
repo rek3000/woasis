@@ -9,6 +9,7 @@ const createPrompt = async (newPrompt) => {
       content,
       result, 
     });
+    console.log(prompt)
 
     // Save the prompt to the database
     await prompt.save();

@@ -5,6 +5,7 @@ const ChatService = require("../services/ChatService");
 const createPrompt = async (request, respond) => {
   try {
     const { content } = request.body;
+    console.log(content)
     if (!content) {
       return respond.status(400).json({
         status: "ERROR",

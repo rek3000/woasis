@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './css/Paraphrase.css';
 import { createPrompt, getPromptDetail } from '../services/PromptService';
-import { getCurrentUser } from '../services/UserService';
 
 const Paraphrasing = () => {
   const [inputText, setInputText] = useState('');
@@ -18,9 +17,9 @@ const Paraphrasing = () => {
     setError(null);
     setParaphrases([]);
     try {
-      const promptData = { content: inputText };
+      const promptData = { content: `Can you paraphrase this text: ${inputText}` };
       const createdPrompt = await createPrompt(promptData);
-      console.log('Created prompt:', createdPrompt);
+      console.log('Created prompt:', createdPrompt); 
 
       const promptDetail = await getPromptDetail(createdPrompt._id);
       console.log('Prompt detail:', promptDetail);
@@ -33,27 +32,6 @@ const Paraphrasing = () => {
       setLoading(false);
     }
   };
-
-  const fetchCurrentUser = async () => {
-    try {
-      // Retrieve token from localStorage, sessionStorage, or cookies
-      const token = localStorage.getItem('token'); // Example using localStorage
-      if (!token) {
-        throw new Error('Token not found');
-      }
-      const currentUser = await getCurrentUser(token);
-      console.log("Current User:", currentUser);
-      // Handle currentUser data as needed in your component state or context
-    } catch (error) {
-      console.error("Error fetching current user:", error);
-      // Handle error state or display error message
-      setError("Failed to fetch current user. Please login again.");
-    }
-  };
-
-  useEffect(() => {
-    fetchCurrentUser();
-  }, []);
 
   const handleChooseParaphrase = (paraphrase) => {
     console.log('Selected paraphrase:', paraphrase);
