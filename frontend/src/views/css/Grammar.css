@@ -7,7 +7,7 @@ body {
 }
 
 /* Grammar checker container */
-.grammar-checker {
+.grammar-checker-container {
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
@@ -18,13 +18,13 @@ body {
 }
 
 /* Heading styles */
-.grammar-checker h1 {
+.grammar-checker-container h1 {
   font-size: 24px;
   margin-bottom: 20px;
 }
 
 /* Textarea styles */
-.grammar-checker textarea {
+.grammar-checker-container textarea {
   width: 100%;
   height: 150px;
   padding: 10px;
@@ -34,33 +34,34 @@ body {
   margin-bottom: 10px;
 }
 
-/* Error section styles */
-.grammar-checker .errors {
+/* Error message styles */
+.grammar-checker-container .error {
+  color: #e74c3c;
+  margin-top: 10px;
+}
+
+/* Grammar corrections section styles */
+.grammar-checker-container .grammar-corrections {
   margin-top: 20px;
 }
 
-.grammar-checker .errors h2 {
+.grammar-checker-container .grammar-corrections h2 {
   font-size: 20px;
   margin-bottom: 10px;
-  color: #e74c3c;
 }
 
-/* Error list styles */
-.grammar-checker .errors ul {
+/* Corrections list styles */
+.grammar-checker-container .grammar-corrections ul {
   list-style-type: none;
   padding: 0;
 }
 
-.grammar-checker .errors li {
-  background-color: #fce4e4;
-  border: 1px solid #e74c3c;
-  border-radius: 4px;
-  padding: 10px;
-  margin-bottom: 5px;
+.grammar-checker-container .grammar-corrections ul li {
+  margin-bottom: 10px;
 }
 
-/* Button styles (if you add buttons similar to Paraphrasing component) */
-.grammar-checker button {
+/* Button styles */
+.grammar-checker-container button {
   padding: 10px 20px;
   font-size: 16px;
   color: #fff;
@@ -71,6 +72,6 @@ body {
   transition: background-color 0.3s;
 }
 
-.grammar-checker button:hover {
+.grammar-checker-container button:hover {
   background-color: #0056b3;
 }

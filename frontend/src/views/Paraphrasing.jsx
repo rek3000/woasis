@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import './css/Paraphrase.css';
 import { createPrompt, getPromptDetail } from '../services/PromptService';
 
@@ -17,7 +17,7 @@ const Paraphrasing = () => {
     setError(null);
     setParaphrases([]);
     try {
-      const promptData = { content: inputText };
+      const promptData = { content: `Can you paraphrase this text: ${inputText}` };
       const createdPrompt = await createPrompt(promptData);
       console.log('Created prompt:', createdPrompt); 
 
