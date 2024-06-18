@@ -10,6 +10,9 @@ import { Home } from "../views/Home";
 import { Login } from "../views/Login";
 
 import axios from 'axios';
+import Paraphrasing from '../views/Paraphrasing';
+import Grammar from '../views/Grammar';
+import Plagiarism from '../views/Plagiarism';
 axios.defaults.withCredentials = true;
 
 const serverUrl = process.env.REACT_APP_SERVER_URL;
@@ -76,7 +79,18 @@ const router = createBrowserRouter([
 		path: "/",
 		element: <Dashboard />,
 	},
-
+	{
+		path:"/Paraphrasing",
+		element: <Paraphrasing/>
+	},
+	{
+		path:"/Grammar",
+		element: <Grammar/>
+	},
+	{
+		path:"/Plagiarism",
+		element: <Plagiarism/>
+	},
 	{
 		path: '/auth/callback', // google will redirect here
 		element: <Callback />,
