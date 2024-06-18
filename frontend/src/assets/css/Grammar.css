@@ -19,6 +19,7 @@ body {
   border-radius: 8px;
   font-family: Arial, sans-serif;
   text-align: center;
+  position: relative;
 }
 
 /* Heading styles */
@@ -85,4 +86,25 @@ body {
 
 .grammar-checker-container button:hover {
   background-color: #0056b3;
+}
+
+.grammar-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.complete-text-button {
+  color: #5FBEB8;
+  font-size: 13px;
+  cursor: pointer;
+  margin-left: 20px;
+  
+  text-decoration: none;
+  transition: text-decoration 0.2s ease;
+}
+
+.complete-text-button:hover {
+  text-decoration: underline;
 }

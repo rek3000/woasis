@@ -98,6 +98,28 @@ body {
   border-radius: 8px;
   font-family: Arial, sans-serif;
   text-align: center;
+  position: relative;
+}
+
+.paraphrasing-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.complete-text-button {
+  color: #5FBEB8;
+  font-size: 13px;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  text-decoration: none;
+  transition: text-decoration 0.2s ease;
+}
+
+.complete-text-button:hover {
+  text-decoration: underline; 
 }
 
 .paraphrasing-container h1 {
