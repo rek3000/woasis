@@ -87,6 +87,19 @@ const PlagiarismChecker = () => {
     }
   };
 
+  const handleTextCompletion = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const promptData = { content: `Please complete this text: ${inputText}` };
+      const createdPrompt = await createPrompt(promptData);
+      setInputText(createdPrompt.data.prompt.result);
+    } catch (error) {
+      setError("Failed to complete text. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="full-size-container">
@@ -137,7 +150,15 @@ const PlagiarismChecker = () => {
           </div>
         </Drawer>
     <div className="plagiarism-checker-container">
+    <div className="plagiarism-header">
       <h1>Plagiarism Checker</h1>
+      <span
+            className="complete-text-button"
+            onClick={loading ? null : handleTextCompletion}
+          >
+            {loading ? 'Completing...' : 'Complete Text'}
+          </span>
+          </div>
       <textarea
         value={inputText}
         onChange={handleChange}

@@ -24,7 +24,7 @@ const Paraphrasing = () => {
     if (loggedIn) {
       const fetchPosts = async () => {
         try {
-          const { data: { posts } } = await axios.get(`${serverUrl}/user/posts`);
+          const { data: { posts } } = await axios.get(`${process.env.REACT_APP_SERVER_URL}/user/posts`);
           setPosts(posts);
         } catch (err) {
           console.error(err);
@@ -36,7 +36,7 @@ const Paraphrasing = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(`${serverUrl}/auth/logout`);
+      await axios.post(`${process.env.REACT_APP_SERVER_URL}/auth/logout`);
       checkLoginState();
     } catch (err) {
       console.error(err);
@@ -78,6 +78,20 @@ const Paraphrasing = () => {
       setParaphrases([createdPrompt.data.prompt.result]);
     } catch (error) {
       setError("Failed to generate paraphrases. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleTextCompletion = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const promptData = { content: `Please complete this text: ${inputText}` };
+      const createdPrompt = await createPrompt(promptData);
+      setInputText(createdPrompt.data.prompt.result);
+    } catch (error) {
+      setError("Failed to complete text. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -132,7 +146,16 @@ const Paraphrasing = () => {
           </div>
         </Drawer>
         <div className="paraphrasing-container">
-          <h1>Paraphrasing</h1>
+          <div className="paraphrasing-header">
+            <h1>Paraphrasing</h1>
+            <span
+              className="complete-text-button"
+              onClick={loading ? null : handleTextCompletion}
+            >
+              {loading ? 'Completing...' : 'Complete Text'}
+              {' '}
+            </span>
+          </div>
           <textarea
             value={inputText}
             onChange={handleChange}
