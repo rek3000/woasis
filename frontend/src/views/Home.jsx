@@ -13,6 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { deletePrompt, getPromptDetail } from '../services/PromptService';
 
+
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
 export function Home() {
@@ -70,7 +71,7 @@ export function Home() {
       console.error(err);
     }
   };
-
+  
   return (
     <div className="full-size-container">
       <div className="home-container">

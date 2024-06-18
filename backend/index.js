@@ -190,6 +190,15 @@ app.get("/api/ai/test", async (req, res) => {
 
 	runChat();
 
+    res.cookie("token", newToken, {
+      maxAge: process.env.TOKEN_EXPIRATION || 36000,
+      httpOnly: true,
+    });
+
+    res.json({ loggedIn: true, user });
+  } catch (err) {
+    res.json({ loggedIn: false });
+  }
 });
 
 app.listen(PORT, ()=> console.log('Server listening on port 8000!'));
