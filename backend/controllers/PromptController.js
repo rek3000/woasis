@@ -5,6 +5,7 @@ const ChatService = require("../services/ChatService");
 const createPrompt = async (request, respond) => {
   try {
     const { content } = request.body;
+    console.log(content)
     if (!content) {
       return respond.status(400).json({
         status: "ERROR",
@@ -24,16 +25,11 @@ const createPrompt = async (request, respond) => {
     // Store prompt in database
     const promptResponse = await PromptService.createPrompt(newPrompt);
 
-    // Create a chat for the user with the newly created prompt
-    const userId = request.user.id; // Assuming you have user information in request
-    const chatResponse = await ChatService.createChat(userId, 'New Chat', [promptResponse.data._id]);
-
     return respond.status(200).json({
       status: "OK",
-      message: "Prompt and Chat created successfully",
+      message: "Prompt created successfully",
       data: {
         prompt: promptResponse.data,
-        chat: chatResponse.data,
       },
     });
   } catch (error) {
@@ -43,6 +39,7 @@ const createPrompt = async (request, respond) => {
     });
   }
 };
+
 
 const getPromptDetail = async (request, respond) => {
   try {

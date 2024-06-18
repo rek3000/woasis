@@ -1,3 +1,5 @@
+const path = require('path');
+const dotenv = require("dotenv").config({path: path.resolve(__dirname, "../.env") });
 const { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } = require("@google/generative-ai");
 
 const sendPromptToGemini = async (prompt) => {
@@ -5,6 +7,8 @@ const sendPromptToGemini = async (prompt) => {
     if (!prompt) {
       prompt = "Introduce yourself, Gemini. Describe your ability on grammar check, text completion, paraphrasing and plagiarism check.";
     }
+    console.log("PROMT_TO_GEMINI:"+prompt);
+    console.log(process.env.GEMINI_API_KEY);
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     const model = genAI.getGenerativeModel({ model: process.env.MODEL_NAME });
 
