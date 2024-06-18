@@ -19,12 +19,12 @@ const Paraphrasing = () => {
     try {
       const promptData = { content: `Can you paraphrase this text: ${inputText}` };
       const createdPrompt = await createPrompt(promptData);
-      console.log('Created prompt:', createdPrompt); 
+      console.log('Created prompt:', createdPrompt.data.prompt.result);
 
-      const promptDetail = await getPromptDetail(createdPrompt._id);
-      console.log('Prompt detail:', promptDetail);
+      // const promptDetail = await getPromptDetail(createdPrompt);//.result);
+      console.log('Prompt detail:', createPrompt);
 
-      setParaphrases(promptDetail.result);
+      setParaphrases([createdPrompt.data.prompt.result]);
     } catch (error) {
       console.error('Error generating paraphrases:', error.message);
       setError("Failed to generate paraphrases. Please try again.");

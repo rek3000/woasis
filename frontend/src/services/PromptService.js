@@ -35,10 +35,8 @@ export const createPrompt = async (data) => {
 };
 
 // Get prompt details (content and result)
-export const getPromptDetail = async (id) => {
-
-  const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/prompt/get/${id}`, {
-
+export const getPromptDetail = async (result) => {
+  const response = await fetch(`http://localhost:8000/api/prompt/get/${result}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
