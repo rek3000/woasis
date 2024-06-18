@@ -1,18 +1,12 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema(
-  {
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    picture: { type: String },
-    chats: [{ type: Schema.Types.ObjectId, ref: 'Chat' }], // Array of Chat references
-  },
-  {
-    timestamps: true,
-  }
-);
+const UserSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  picture: String,
+  prompts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Prompt' }]
+});
 
-const User = mongoose.model('User', userSchema);
-
+const User = mongoose.model('User', UserSchema);
 module.exports = User;

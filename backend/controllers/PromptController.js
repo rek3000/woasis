@@ -1,29 +1,28 @@
 const PromptService = require("../services/PromptService");
 const GeminiService = require("../services/GeminiService");
-const ChatService = require("../services/ChatService");
+const OAuth2Service = require("../services/OAuth2Service");
 
 const createPrompt = async (request, respond) => {
   try {
     const { content } = request.body;
-    console.log(content)
+
     if (!content) {
       return respond.status(400).json({
         status: "ERROR",
         message: "Parameter Required: 'content' is missing",
       });
     }
+    // console.log(OAuth2Service.getCurrentUserId(request));
+    const userId = await OAuth2Service.getCurrentUserId(request);
 
-    // Send prompt to Gemini and get response
     const geminiResponse = await GeminiService.sendPromptToGemini(content);
 
-    // Create new prompt object with content and geminiResponse
     const newPrompt = {
       content,
-      result: geminiResponse, // Assuming geminiResponse is a string
+      result: geminiResponse,
     };
 
-    // Store prompt in database
-    const promptResponse = await PromptService.createPrompt(newPrompt);
+    const promptResponse = await PromptService.createPrompt(newPrompt, userId);
 
     return respond.status(200).json({
       status: "OK",

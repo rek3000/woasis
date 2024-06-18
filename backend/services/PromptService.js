@@ -1,26 +1,34 @@
 const Prompt = require("../models/Prompt");
 
-const createPrompt = async (newPrompt) => {
-  const { content, result } = newPrompt; // Destructure content and result
-
+const createPrompt = async (newPrompt, userId) => {
   try {
-    // Create a new Prompt instance with content and result
-    const prompt = new Prompt({
-      content,
-      result, 
-    });
-    console.log(prompt)
+    // Create a new prompt document
+    const prompt = new PromptModel(newPrompt);
 
     // Save the prompt to the database
-    await prompt.save();
+    const savedPrompt = await prompt.save();
+
+    // Find the user by userId and update their prompts array
+    const user = await UserModel.findByIdAndUpdate(
+      userId,
+      { $push: { prompts: savedPrompt._id } },
+      { new: true, useFindAndModify: false }
+    );
+
+    // If the user is not found, throw an error
+    if (!user) {
+      throw new Error("User not found");
+    }
 
     return {
       status: "OK",
-      message: "SUCCESS",
-      data: prompt,
+      data: savedPrompt,
     };
   } catch (error) {
-    throw new Error(error.message + "Internal Server Error (at Prompt Service)");
+    return {
+      status: "ERROR",
+      message: error.message,
+    };
   }
 };
 

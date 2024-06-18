@@ -2,7 +2,10 @@ const User = require("../models/User");
 
 const createUser = async (userData) => {
   try {
-    const user = new User(userData);
+    const user = new User({
+      ...userData,
+      prompts: [], // Initialize prompts array
+    });
     await user.save();
     return {
       status: "OK",

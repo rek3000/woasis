@@ -8,7 +8,7 @@ const sendPromptToGemini = async (prompt) => {
       prompt = "Introduce yourself, Gemini. Describe your ability on grammar check, text completion, paraphrasing and plagiarism check.";
     }
     console.log("PROMT_TO_GEMINI:"+prompt);
-    console.log(process.env.GEMINI_API_KEY);
+    // console.log(process.env.GEMINI_API_KEY);
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     const model = genAI.getGenerativeModel({ model: process.env.MODEL_NAME });
 
