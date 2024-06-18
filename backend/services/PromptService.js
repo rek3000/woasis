@@ -24,9 +24,9 @@ const createPrompt = async (newPrompt) => {
   }
 };
 
-const getPromptDetail = async (id) => {
+const getPromptDetail = async (result) => {
   try {
-    const prompt = await Prompt.findById(id);
+    const prompt = await Prompt.findById(result);
     if (!prompt) {
       return {
         status: "ERROR",

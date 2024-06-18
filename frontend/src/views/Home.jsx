@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../routes';
-import './css/Welcome.css';
+import '../assets/css/Welcome.css';
 import GrammarChecker from './Grammar';
 import PlagiarismChecker from './Plagiarism';
 import Paraphrasing from './Paraphrasing';
@@ -12,6 +12,7 @@ import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { deletePrompt, getPromptDetail } from '../services/PromptService';
+import { useNavigate } from 'react-router-dom';
 
 
 const serverUrl = process.env.REACT_APP_SERVER_URL;
@@ -19,13 +20,12 @@ const serverUrl = process.env.REACT_APP_SERVER_URL;
 export function Home() {
   const { user, loggedIn, checkLoginState } = useContext(AuthContext);
   const [posts, setPosts] = useState([]);
-  const [activeTool, setActiveTool] = useState('');
+  const [activeTool] = useState('');
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectedPrompt, setSelectedPrompt] = useState(null);
+  const navigate = useNavigate();
 
-  const handleToolClick = (tool) => {
-    setActiveTool(tool);
-  };
+
 
   useEffect(() => {
     if (loggedIn) {
@@ -134,9 +134,9 @@ export function Home() {
                     <h1>Welcome to our Writing Assistant</h1>
                     <nav className="header-nav">
                       <ul>
-                        <li><button className="nav-button" onClick={() => handleToolClick('plagiarism')}>Plagiarism Check</button></li>
-                        <li><button className="nav-button" onClick={() => handleToolClick('paraphrasing')}>Paraphrasing</button></li>
-                        <li><button className="nav-button" onClick={() => handleToolClick('grammar')}>Grammar Check</button></li>
+                        <li><button className="nav-button" onClick={() => navigate('/plagiarism')}>Plagiarism Check</button></li>
+                        <li><button className="nav-button" onClick={() => navigate('/Paraphrasing')}>Paraphrasing</button></li>
+                        <li><button className="nav-button" onClick={() => navigate('/grammar')}>Grammar Check</button></li>
                       </ul>
                     </nav>
                   </header>
