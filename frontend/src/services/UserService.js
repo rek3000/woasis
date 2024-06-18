@@ -3,25 +3,39 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const handleResponse = async (response) => {
-  if (!response.data) {
-    throw new Error("Network response was not ok or no data received");
+  const contentType = response.headers.get("content-type");
+  if (!response.ok) {
+    if (contentType && contentType.includes("application/json")) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Something went wrong");
+    } else {
+      throw new Error("Network response was not ok and not JSON");
+    }
   }
-  return response.data;
-};
-
-export const getCurrentUser = async (token) => {
-  try {
-    const response = await axios.get("http://localhost:8000/api/user/get-current", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return handleResponse(response);
-  } catch (error) {
-    throw new Error(`Failed to get current user: ${error.message}`);
+  if (contentType && contentType.includes("application/json")) {
+    return response.json();
+  } else {
+    throw new Error("Network response was not JSON");
   }
 };
 
+// Get the currently logged user Id
+// export const getCurrentUser = async () => {
+//   const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/user/get-current`, data);
+//   return response.data;
+// }
+
+// Create a prompt which takes the question/content from the body
+export const getCurrentUser = async (data) => {
+  const response = await fetch("http://localhost:8000/api/user/get-current", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  return handleResponse(response);
+};
 
 
 // Get an user by email

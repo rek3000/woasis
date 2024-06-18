@@ -21,19 +21,24 @@ const handleResponse = async (response) => {
 
 // Create a prompt which takes the question/content from the body
 export const createPrompt = async (data) => {
+  const token = localStorage.getItem('token');
   const response = await fetch("http://localhost:8000/api/prompt/create", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
     },
     body: JSON.stringify(data),
+    credentials: "include",
   });
   return handleResponse(response);
 };
 
 // Get prompt details (content and result)
 export const getPromptDetail = async (id) => {
-  const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/prompt/get/${id}`, {
+
+  const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/prompt/get/${id}`, {
+
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -44,7 +49,7 @@ export const getPromptDetail = async (id) => {
 
 // Delete a prompt
 export const deletePrompt = async (id) => {
-  const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/prompt/delete/${id}`, {
+  const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/prompt/delete/${id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
