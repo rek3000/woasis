@@ -13,6 +13,7 @@ import axios from 'axios';
 import Paraphrasing from '../views/Paraphrasing';
 import Grammar from '../views/Grammar';
 import Plagiarism from '../views/Plagiarism';
+import PromptsList from '../views/PromptsList';
 axios.defaults.withCredentials = true;
 
 const serverUrl = process.env.REACT_APP_SERVER_URL;
