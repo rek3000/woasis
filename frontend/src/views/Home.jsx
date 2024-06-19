@@ -5,41 +5,19 @@ import '../assets/css/Welcome.css';
 import GrammarChecker from './Grammar';
 import PlagiarismChecker from './Plagiarism';
 import Paraphrasing from './Paraphrasing';
+import PromptsList from './PromptsList';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import { deletePrompt, getPromptDetail } from '../services/PromptService';
 import { useNavigate } from 'react-router-dom';
-
 
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
 export function Home() {
   const { user, loggedIn, checkLoginState } = useContext(AuthContext);
-  const [posts, setPosts] = useState([]);
   const [activeTool] = useState('');
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectedPrompt, setSelectedPrompt] = useState(null);
   const navigate = useNavigate();
-
-
-
-  useEffect(() => {
-    if (loggedIn) {
-      const fetchPosts = async () => {
-        try {
-          const { data: { posts } } = await axios.get(`${serverUrl}/user/posts`);
-          setPosts(posts);
-        } catch (err) {
-          console.error(err);
-        }
-      };
-      fetchPosts();
-    }
-  }, [loggedIn]);
 
   const handleLogout = async () => {
     try {
@@ -54,24 +32,7 @@ export function Home() {
     setDrawerOpen(open);
   };
 
-  const handleDelete = async (id) => {
-    try {
-      await deletePrompt(id);
-      setPosts(posts.filter(post => post.id !== id));
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
-  const handlePostClick = async (id) => {
-    try {
-      const promptDetail = await getPromptDetail(id);
-      setSelectedPrompt(promptDetail);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-  
   return (
     <div className="full-size-container">
       <div className="home-container">
@@ -103,23 +64,8 @@ export function Home() {
               >
                 <div className="drawer-container">
                   <List>
-                  <div className="drawer-title">Dashboard</div>
-                    {posts.length > 0 ? (
-                      posts.map((post, index) => (
-                        <div className="prompt-container" key={index}>
-                          <ListItem button onClick={() => handlePostClick(post.id)}>
-                            <ListItemText primary={`${post.input}`} />
-                            <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(post.id)}>
-                              <DeleteIcon className="delete-button" />
-                            </IconButton>
-                          </ListItem>
-                        </div>
-                      ))
-                    ) : (
-                      <ListItem>
-                        <ListItemText primary="No activity yet." />
-                      </ListItem>
-                    )}
+                    <div className="drawer-title">Dashboard</div>
+                    <PromptsList />
                   </List>
                 </div>
               </div>

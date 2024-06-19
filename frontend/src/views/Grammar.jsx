@@ -7,11 +7,8 @@ import { createPrompt, deletePrompt, getPromptDetail } from '../services/PromptS
 import { AuthContext } from '../routes';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import Highlighter from 'react-highlight-words';
+import PromptsList from './PromptsList';
+
 
 const Grammar = () => {
   const { user, loggedIn, checkLoginState } = useContext(AuthContext);
@@ -47,24 +44,6 @@ const Grammar = () => {
 
   const toggleDrawer = (open) => () => {
     setDrawerOpen(open);
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      await deletePrompt(id);
-      setPosts(posts.filter(post => post.id !== id));
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const handlePostClick = async (id) => {
-    try {
-      const promptDetail = await getPromptDetail(id);
-      setSelectedPrompt(promptDetail);
-    } catch (err) {
-      console.error(err);
-    }
   };
 
   const handleChange = (e) => {
@@ -136,29 +115,14 @@ const Grammar = () => {
             onClick={toggleDrawer(false)}
             onKeyDown={toggleDrawer(false)}
           >
-            <div className="drawer-container">
-              <List>
-                <div className="drawer-title">Dashboard</div>
-                {posts.length > 0 ? (
-                  posts.map((post, index) => (
-                    <div className="prompt-container" key={index}>
-                      <ListItem button onClick={() => handlePostClick(post.id)}>
-                        <ListItemText primary={`${post.input}`} />
-                        <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(post.id)}>
-                          <DeleteIcon className="delete-button" />
-                        </IconButton>
-                      </ListItem>
-                    </div>
-                  ))
-                ) : (
-                  <ListItem>
-                    <ListItemText primary="No activity yet." />
-                  </ListItem>
-                )}
-              </List>
-            </div>
-          </div>
-        </Drawer>
+               <div className="drawer-container">
+                  <List>
+                    <div className="drawer-title">Dashboard</div>
+                    <PromptsList />
+                  </List>
+                </div>
+              </div>
+            </Drawer>
         <div className="grammar-checker-container">
         <div className="grammar-header">
           <h1>Grammar Checker</h1>
@@ -181,12 +145,6 @@ const Grammar = () => {
           {grammarCorrections.length > 0 && (
             <div className="grammar-corrections">
               <h2>Grammar Corrections:</h2>
-              <Highlighter
-                highlightClassName="highlight"
-                searchWords={grammarCorrections.map(correction => correction)}
-                autoEscape={true}
-                textToHighlight={inputText}
-              />
               <ul>
                 {grammarCorrections.map((correction, index) => (
                   <li key={index}>
