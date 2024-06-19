@@ -21,7 +21,7 @@ const PlagiarismChecker = () => {
     if (loggedIn) {
       const fetchPosts = async () => {
         try {
-          const { data: { posts } } = await axios.get(`${serverUrl}/user/posts`);
+          const { data: { posts } } = await axios.get(`${process.env.REACT_APP_SERVER_URL}/user/posts`);
           setPosts(posts);
         } catch (err) {
           console.error(err);
@@ -33,7 +33,7 @@ const PlagiarismChecker = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(`${serverUrl}/auth/logout`);
+      await axios.post(`${process.env.REACT_APP_SERVER_URL}/auth/logout`);
       checkLoginState();
     } catch (err) {
       console.error(err);
